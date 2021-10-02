@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">  
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+</head>
+
+<body>
+  <nav>
+
+    <h3 style="color: aliceblue">Weather View</h3>
+
+
+  </nav>
+  {% include '_messages.html' %}
+  <!-- <div class="alert alert-success alert-dismissible">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong> This alert box could indicate a successful or positive action.
+  </div> -->
+  <div class="container">
+  <div class="input-group mt-2" style="width: 300px; margin: auto;">
+    <form action="{% url 'index' %}" method="POST">
+      {% csrf_token %}
+    <input type="text" class = "form-control" name="city_name" placeholder="City Name/Pincode/Co-ordinates">
+    <br>
+      <br>
+    <input class="btn btn-primary add-city-button" type="submit" value="Add" id="add">
+      
+    
+  </form>
+  
+  </div>
+ 
+</div>
+
+  
+    <div class="container">
+      <div class="row">
+        {% for city_weather in city_data %}
+        <div class="col-md-3">
+        <div class="maincontainer">
+          <div class="thecard">
+            <div class="thefront">
+
+              <h1>
+                
+                
+                <img src="http://openweathermap.org/img/wn/{{city_weather.icon}}@2x.png" alt="">
+                {{city_weather.city}}</br><b>{{city_weather.temprature}} &#8451;</b>
+              </h1>
+              <hr>
+              <center>
+                <h4>{{city_weather.description.upper}}</h4>
+              </center>
+
+              <p>
+                Temprature : {{city_weather.temprature}} &#8451;
+
+                <br>
+                Humidity: {{city_weather.humidity}}%
+                <br>
+                Wind: {{city_weather.wind_speed}} km/h
+              </p>
+            </div>
+
+            <div class="theback">
+              <a style="margin: 10px;" href="{% url 'delete_city' city_weather.city %}" class="close" >&times;</a>
+              <br><br>
+              <p>
+                <b>Sunrise time</b> = {{city_weather.sunrise}}
+                <br>
+                <b>Sunset time</b> = {{city_weather.sunset}}
+
+              </p>
+
+              <p>
+              <b><h5>Temprature</h5></b>
+              Today's min = {{city_weather.temp_min}}
+              <br>
+              Today's max = {{city_weather.temp_max}}
+              <br>
+              {{city_weather.temp_min}}<meter style="width: 120px;" id="linda" min="{{city_weather.temp_min}}-2"
+                low="{{city_weather.temp_min}}" high="{{city_weather.temp_max}}" max="{{city_weather.temp_max}}+2"
+                value="{{city_weather.temprature}}"></meter>{{city_weather.temp_max}}
+              </p>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+        {% endfor %}
+
+      </div>
+    </div>
+    
+  
+
+
+    
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
+    integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
+    crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>
