@@ -10,16 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
-import environ
 import django_heroku
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
 
 
 # Quick-start development settings - unsuitable for production
@@ -90,8 +85,10 @@ WSGI_APPLICATION = 'weatherdata.wsgi.application'
 
 
 DATABASES = {
-    # read os.environ['DATABASE_URL'] and raises ImproperlyConfigured exception if not found
-    'default': env.db(),
+    "default": {
+        "ENGINE" : "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3")
+    }
 }
 
 # Password validation
